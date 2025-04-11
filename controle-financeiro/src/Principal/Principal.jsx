@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Principal.css";
 
 const Principal = () => {
   const [descricao, setDescicao] = useState("");
@@ -60,7 +61,7 @@ const Principal = () => {
 
   return (
     <div className="container">
-      <h1>Olá, usuário!</h1>
+      <h1>Olá, user!</h1>
 
       <div className="resumo-transacoes">
         <h2>Transações</h2>
@@ -77,7 +78,7 @@ const Principal = () => {
             <p>Total de transações</p>
             <h3>{transacoes.length}</h3>
           </div>
-          <div className="exportar-area">
+          <div className="exportar">
             <button className="botao-exportar">⬇ Exportar</button>
           </div>
         </div>
@@ -121,7 +122,9 @@ const Principal = () => {
             Saída
           </label>
         </div>
-        <button onClick={adicionarTransacao}>Adicionar</button>
+        <button className="button-add" onClick={adicionarTransacao}>
+          Adicionar
+        </button>
 
         <div className="historico">
           {Object.entries(transacoesAgrupadas).map(([data, lista]) => (
