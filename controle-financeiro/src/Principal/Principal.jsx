@@ -6,7 +6,22 @@ const Principal = () => {
   const [tipo, setTipo] = useState("entrada");
   const [transacoes, setTransacoes] = useState([]);
 
-  const adicionarTrancasoes = () => {
+  const entradas = transacoes
+    .filter((t) => t.tipo === "entrada")
+    .reduce((acc, t) => acc + t.valor, 0);
+
+  const saidas = transacoes
+    .filter((t) => t.tipo === "saida")
+    .reduce((acc, t) => acc + t.valor, 0);
+
+  const total = entradas - saidas;
+
+  const removerTransacao = (id) => {
+    const novaLista = transacoes.filter((t) => t.id !== id);
+    setTransacoes(novaLista);
+  };
+
+  const adicionarTransacao = () => {
     if (!descricao || !valor) return;
 
     const valorNumerico = parseFloat(valor);
@@ -15,7 +30,7 @@ const Principal = () => {
       id: Date.now(),
       descricao,
       valor: valorNumerico,
-      valor,
+      tipo,
     };
 
     setTransacoes([...transacoes, novaTransacao]);
@@ -24,6 +39,7 @@ const Principal = () => {
     setValor("");
     setTipo("entrada");
   };
+
   return (
     <div className="container">
       <h1>Controle Financeiro</h1>
@@ -31,14 +47,17 @@ const Principal = () => {
       <div className="cards">
         <div className="card-entrada">
           <h2>Entradas</h2>
+          <p>R$ {entradas.toFixed(2)}</p>
         </div>
 
         <div className="card-saida">
           <h2>Saídas</h2>
+          <p>R$ {saidas.toFixed(2)}</p>
         </div>
 
         <div className="card-total">
           <h2>Total</h2>
+          <p>R$ {total.toFixed(2)}</p>
         </div>
 
         <div className="desc">
@@ -78,7 +97,7 @@ const Principal = () => {
             Saída
           </label>
         </div>
-        <button onClick={adicionarTrancasoes}>Adicionar</button>
+        <button onClick={adicionarTransacao}>Adicionar</button>
 
         <table>
           <thead>
@@ -88,6 +107,18 @@ const Principal = () => {
               <th>Tipo</th>
             </tr>
           </thead>
+          <tbody>
+            {transacoes.map((T) => (
+              <tr key={T.id}>
+                <td>{T.descricao}</td>
+                <td>R$ {T.valor}</td>
+                <td>{T.tipo}</td>
+                <td>
+                  <button onClick={() => removerTransacao(T.id)}>🗑️</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     </div>
