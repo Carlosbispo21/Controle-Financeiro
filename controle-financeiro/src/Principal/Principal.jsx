@@ -21,16 +21,34 @@ const Principal = () => {
     setTransacoes(novaLista);
   };
 
+  const transacoesAgrupadas = transacoes.reduce((acc, transacao) => {
+    const { data } = transacao;
+    if (!acc[data]) {
+      acc[data] = [];
+    }
+    acc[data].push(transacao);
+    return acc;
+  }, {});
+
   const adicionarTransacao = () => {
     if (!descricao || !valor) return;
 
     const valorNumerico = parseFloat(valor);
+
+    const agora = new Date();
+    const dataFormatada = agora.toLocaleDateString("pt-BR");
+    const horaFormatada = agora.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
     const novaTransacao = {
       id: Date.now(),
       descricao,
       valor: valorNumerico,
       tipo,
+      data: dataFormatada,
+      hora: horaFormatada,
     };
 
     setTransacoes([...transacoes, novaTransacao]);
@@ -42,24 +60,30 @@ const Principal = () => {
 
   return (
     <div className="container">
-      <h1>Controle Financeiro</h1>
+      <h1>Olá, usuário!</h1>
+
+      <div className="resumo-transacoes">
+        <h2>Transações</h2>
+        <div className="painel-info">
+          <div className="info-card">
+            <p>Entrada</p>
+            <h3>R$ {entradas.toFixed(2)}</h3>
+          </div>
+          <div className="info-card">
+            <p>Saída</p>
+            <h3>R$ {saidas.toFixed(2)}</h3>
+          </div>
+          <div className="info-card">
+            <p>Total de transações</p>
+            <h3>{transacoes.length}</h3>
+          </div>
+          <div className="exportar-area">
+            <button className="botao-exportar">⬇ Exportar</button>
+          </div>
+        </div>
+      </div>
 
       <div className="cards">
-        <div className="card-entrada">
-          <h2>Entradas</h2>
-          <p>R$ {entradas.toFixed(2)}</p>
-        </div>
-
-        <div className="card-saida">
-          <h2>Saídas</h2>
-          <p>R$ {saidas.toFixed(2)}</p>
-        </div>
-
-        <div className="card-total">
-          <h2>Total</h2>
-          <p>R$ {total.toFixed(2)}</p>
-        </div>
-
         <div className="desc">
           <input
             type="text"
@@ -99,27 +123,34 @@ const Principal = () => {
         </div>
         <button onClick={adicionarTransacao}>Adicionar</button>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Descrição</th>
-              <th>Valor</th>
-              <th>Tipo</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transacoes.map((T) => (
-              <tr key={T.id}>
-                <td>{T.descricao}</td>
-                <td>R$ {T.valor}</td>
-                <td>{T.tipo}</td>
-                <td>
-                  <button onClick={() => removerTransacao(T.id)}>🗑️</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="historico">
+          {Object.entries(transacoesAgrupadas).map(([data, lista]) => (
+            <div key={data} className="grupo-data">
+              <h3>{data}</h3>
+              {lista.map((t) => (
+                <div key={t.id} className="item-transacao">
+                  <div className="info-transacao">
+                    <div className="descricao">
+                      <strong>{t.descricao}</strong>
+                    </div>
+                    <div
+                      className={`tipo-transacao ${
+                        t.tipo === "entrada" ? "entrada" : "saida"
+                      }`}
+                    >
+                      {t.tipo}
+                    </div>
+                    <div className="hora">às {t.hora}</div>
+                    <div className="valor">
+                      {t.tipo === "saida" ? "-" : ""} R$ {t.valor.toFixed(2)}
+                    </div>
+                    <button onClick={() => removerTransacao(t.id)}>🗑️</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
