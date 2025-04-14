@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Principal.css";
 
 const Principal = () => {
-  const [descricao, setDescicao] = useState("");
+  const [descricao, setDescricao] = useState("");
   const [valor, setValor] = useState("");
   const [tipo, setTipo] = useState("entrada");
   const [transacoes, setTransacoes] = useState([]);
@@ -54,7 +54,7 @@ const Principal = () => {
 
     setTransacoes([...transacoes, novaTransacao]);
 
-    setDescicao("");
+    setDescricao("");
     setValor("");
     setTipo("entrada");
   };
@@ -75,11 +75,15 @@ const Principal = () => {
             <h3>R$ {saidas.toFixed(2)}</h3>
           </div>
           <div className="info-card">
+            <p>Total R$</p>
+            <h3>R$ {total.toFixed(2)}</h3>
+          </div>
+          <div className="info-card">
             <p>Total de transações</p>
             <h3>{transacoes.length}</h3>
           </div>
           <div className="exportar">
-            <button className="botao-exportar">⬇ Exportar</button>
+            <button className="botao-exportar">Exportar</button>
           </div>
         </div>
       </div>
@@ -90,7 +94,7 @@ const Principal = () => {
             type="text"
             placeholder="Descrição"
             value={descricao}
-            onChange={(e) => setDescicao(e.target.value)}
+            onChange={(e) => setDescricao(e.target.value)}
           />
 
           <input
@@ -100,60 +104,67 @@ const Principal = () => {
             value={valor}
             onChange={(e) => setValor(e.target.value)}
           />
+
+          <button
+            type="button"
+            className={`btn-radio entrada ${
+              tipo === "entrada" ? "selected" : ""
+            }`}
+            onClick={() => setTipo("entrada")}
+          >
+            ⬆ Entrada
+          </button>
+          <button
+            type="button"
+            className={`btn-radio saida ${tipo === "saida" ? "selected" : ""}`}
+            onClick={() => setTipo("saida")}
+          >
+            ⬇ Saída
+          </button>
         </div>
 
-        <div className="ent-sai">
-          <label>
-            <input
-              type="radio"
-              value="entrada"
-              checked={tipo === "entrada"}
-              onChange={(e) => setTipo(e.target.value)}
-            />
-            Entrada
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="saida"
-              checked={tipo === "saida"}
-              onChange={(e) => setTipo(e.target.value)}
-            />
-            Saída
-          </label>
-        </div>
         <button className="button-add" onClick={adicionarTransacao}>
           Adicionar
         </button>
+      </div>
 
-        <div className="historico">
-          {Object.entries(transacoesAgrupadas).map(([data, lista]) => (
-            <div key={data} className="grupo-data">
-              <h3>{data}</h3>
+      <div className="historico">
+        {Object.entries(transacoesAgrupadas).map(([data, lista]) => (
+          <div key={data} className="grupo-data">
+            <div className="card-data">
+              <div className="topo-data">
+                <span className="data-titulo">{data}</span>
+              </div>
+
               {lista.map((t) => (
-                <div key={t.id} className="item-transacao">
-                  <div className="info-transacao">
-                    <div className="descricao">
-                      <strong>{t.descricao}</strong>
-                    </div>
-                    <div
-                      className={`tipo-transacao ${
-                        t.tipo === "entrada" ? "entrada" : "saida"
-                      }`}
-                    >
-                      {t.tipo}
-                    </div>
-                    <div className="hora">às {t.hora}</div>
-                    <div className="valor">
-                      {t.tipo === "saida" ? "-" : ""} R$ {t.valor.toFixed(2)}
-                    </div>
-                    <button onClick={() => removerTransacao(t.id)}>🗑️</button>
+                <div key={t.id} className="transacao-item">
+                  <div className="descricao">
+                    <strong>{t.descricao}</strong>
+                    <span className="tipo-transacao">{t.tipo}</span>
                   </div>
+
+                  <div className="hora">às {t.hora}</div>
+
+                  <div
+                    className={`valor ${
+                      t.tipo === "entrada" ? "positivo" : "negativo"
+                    }`}
+                  >
+                    {t.tipo === "entrada" ? "+ " : "- "} R${" "}
+                    {Number(t.valor).toFixed(2)}
+                  </div>
+
+                  <button
+                    onClick={() => removerTransacao(t.id)}
+                    className="delete-btn"
+                  >
+                    🗑️
+                  </button>
                 </div>
               ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
