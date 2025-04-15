@@ -1,0 +1,146 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f5f7fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formulario {
+  background-color: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+}
+
+.formulario h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #1d1d1d;
+}
+
+.formulario p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.formulario label {
+  font-size: 14px;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: #1d1d1d;
+}
+
+.formulario input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f1f6f9;
+  font-size: 14px;
+  margin-bottom: 1.5rem;
+}
+
+.formulario input:focus {
+  outline: none;
+  border-color: #007b8a;
+  background-color: #ffffff;
+}
+
+.Login {
+  width: 100%;
+  background-color: #00555d;
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.Login:hover {
+  background-color: #003f45;
+}
+
+.divisao {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 2rem 0 1.5rem;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.divisao::before,
+.divisao::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #ddd;
+}
+
+.divisao:not(:empty)::before {
+  margin-right: 0.75rem;
+}
+
+.divisao:not(:empty)::after {
+  margin-left: 0.75rem;
+}
+
+.btn-google {
+  display: flex;
+  justify-content: center;
+}
+
+.LoginGoogle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.LoginGoogle:hover {
+  background-color: #f1f1f1;
+}
+
+.registrar {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 14px;
+  color: #333;
+}
+
+.registrar a {
+  color: #0c4c64;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.registrar a:hover {
+  text-decoration: underline;
+}

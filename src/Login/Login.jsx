@@ -1,42 +1,33 @@
-import "./Login.css";
+import React from "react";
 import { FcGoogle } from "react-icons/fc";
+import "./Login.css";
 
 const Login = () => {
   return (
     <div className="container">
-      <h1>Bem vindo de volta!</h1>
-      <p className="subtitulo">Por favor, insira seus dados abaixo</p>
       <div className="formulario">
-        <p>E-mail</p>
-        <input className="email" type="email" placeholder="Insira seu e-mail" />
+        <h1>Bem vindo de volta!</h1>
+        <p>Por favor, insira seus dados abaixo</p>
 
-        <p>Senha</p>
-        <input
-          className="senha"
-          type="password"
-          placeholder="Insira sua senha"
-        />
+        <label htmlFor="email">E-mail</label>
+        <input type="email" id="email" placeholder="Insira seu e-mail" />
 
-        <div className="btn">
-          <button className="Login">Login</button>
-        </div>
+        <label htmlFor="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Insira sua senha" />
 
-        <div className="divisao">
-          <hr /> <span>ou</span> <hr />
-        </div>
+        <button className="Login">Login</button>
+
+        <div className="divisao">ou</div>
 
         <div className="btn-google">
           <button className="LoginGoogle">
-            {" "}
             <FcGoogle size={20} />
             Google
           </button>
         </div>
 
         <div className="registrar">
-          <p>
-            não tem uma conta? <a href="#">Registre aqui</a>
-          </p>
+          não tem uma conta? <a href="#">Registre aqui</a>
         </div>
       </div>
     </div>
