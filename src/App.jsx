@@ -1,10 +1,10 @@
 import "./App.css";
-import Principal from "./Principal/Principal.jsx";
+import Login from "./Login/Login.jsx";
 
 function App() {
   return (
-    <div className="appPrincipal">
-      <Principal />
+    <div className="appLogin">
+      <Login />
     </div>
   );
 }
