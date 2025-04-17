@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 import "./Principal.css";
 import { useAuth } from "../Autenticacao/UserAuth";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  deleteDoc,
+  doc,
+  Timestamp,
+} from "firebase/firestore";
+import { db } from "../firebase";
+import { useEffect } from "react";
 
 const Principal = () => {
   const { user } = useAuth();
@@ -19,9 +32,14 @@ const Principal = () => {
 
   const total = entradas - saidas;
 
-  const removerTransacao = (id) => {
-    const novaLista = transacoes.filter((t) => t.id !== id);
-    setTransacoes(novaLista);
+  const removerTransacao = async (id) => {
+    try {
+      await deleteDoc(doc(db, "transacoes", id));
+      const novaLista = transacoes.filter((t) => t.id !== id);
+      setTransacoes(novaLista);
+    } catch (error) {
+      console.error("Erro ao remover transacao", error);
+    }
   };
 
   const transacoesAgrupadas = transacoes.reduce((acc, transacao) => {
@@ -33,7 +51,7 @@ const Principal = () => {
     return acc;
   }, {});
 
-  const adicionarTransacao = () => {
+  const adicionarTransacao = async () => {
     if (!descricao || !valor) return;
 
     const valorNumerico = parseFloat(valor);
@@ -46,20 +64,49 @@ const Principal = () => {
     });
 
     const novaTransacao = {
-      id: Date.now(),
       descricao,
       valor: valorNumerico,
       tipo,
       data: dataFormatada,
       hora: horaFormatada,
+      uid: user.uid,
+      timestamp: agora,
     };
 
-    setTransacoes([...transacoes, novaTransacao]);
+    try {
+      const docRef = await addDoc(collection(db, "transacoes"), novaTransacao);
+      console.log("Transação salva com ID:", docRef.id);
+      setTransacoes([...transacoes, { ...novaTransacao, id: docRef.id }]);
+    } catch (error) {
+      console.error("Erro ao adicionar transação", error);
+    }
 
     setDescricao("");
     setValor("");
     setTipo("entrada");
   };
+
+  useEffect(() => {
+    const carregarTransacoes = async () => {
+      if (!user) return;
+      console.log("UID logado:", user.uid);
+
+      const transacoesRef = collection(db, "transacoes");
+      const q = query(
+        transacoesRef,
+        where("uid", "==", user.uid),
+        orderBy("timestamp", "asc")
+      );
+
+      const queryExe = await getDocs(q);
+      const list = queryExe.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTransacoes(list);
+    };
+    carregarTransacoes();
+  }, [user]);
 
   return (
     <div className="container">
