@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./Principal.css";
+import { useAuth } from "../Autenticacao/UserAuth";
 
 const Principal = () => {
+  const { user } = useAuth();
   const [descricao, setDescricao] = useState("");
   const [valor, setValor] = useState("");
   const [tipo, setTipo] = useState("entrada");
@@ -61,7 +63,7 @@ const Principal = () => {
 
   return (
     <div className="container">
-      <h1>Olá, user!</h1>
+      <h1>Olá, {user ? user.displayName : "usuário!"}</h1>
 
       <div className="resumo-transacoes">
         <h2>Transações</h2>

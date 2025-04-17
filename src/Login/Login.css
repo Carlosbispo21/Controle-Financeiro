@@ -9,7 +9,7 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
+.container-login {
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -25,7 +25,6 @@ body {
   width: 100%;
   max-width: 400px;
 }
-
 .formulario h1 {
   font-size: 26px;
   font-weight: 700;
@@ -45,7 +44,6 @@ body {
   display: block;
   color: #1d1d1d;
 }
-
 .formulario input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -79,7 +77,6 @@ body {
 .Login:hover {
   background-color: #003f45;
 }
-
 .divisao {
   display: flex;
   align-items: center;
@@ -109,7 +106,6 @@ body {
   display: flex;
   justify-content: center;
 }
-
 .LoginGoogle {
   display: flex;
   align-items: center;
