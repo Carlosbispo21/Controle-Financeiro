@@ -21,6 +21,7 @@ const Principal = () => {
   const [valor, setValor] = useState("");
   const [tipo, setTipo] = useState("entrada");
   const [transacoes, setTransacoes] = useState([]);
+  const [borderColor, setBorderColor] = useState("");
 
   const entradas = transacoes
     .filter((t) => t.tipo === "entrada")
@@ -108,6 +109,20 @@ const Principal = () => {
     carregarTransacoes();
   }, [user]);
 
+  const selectColor = (e) => {
+    const valor = e.target.value;
+
+    if (valor === "Categorias") {
+      setBorderColor("borda-preta");
+    } else if (valor === "Saude") {
+      setBorderColor("borda-vermelha");
+    } else if (valor === "Alimentação") {
+      setBorderColor("borda-verde");
+    } else if (valor === "Material") {
+      setBorderColor("borda-amarela");
+    }
+  };
+
   return (
     <div className="container">
       <h1>Olá, {user ? user.displayName : "usuário!"}</h1>
@@ -170,6 +185,15 @@ const Principal = () => {
           >
             ⬇ Saída
           </button>
+          <select
+            className={`categorias ${borderColor}`}
+            onChange={selectColor}
+          >
+            <option value="Categorias">Categorias</option>
+            <option value="Saude">Saude</option>
+            <option value="Alimentação">Alimentação</option>
+            <option value="Material">Material</option>
+          </select>
         </div>
 
         <button className="button-add" onClick={adicionarTransacao}>
