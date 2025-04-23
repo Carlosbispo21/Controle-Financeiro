@@ -1,5 +1,10 @@
 <div align="center">
-  <img src="https://via.placeholder.com/250x80?text=LOGO+DO+PROJETO" alt="Logo do Controle Financeiro" />
+  <link
+      rel="icon"
+      type="image/png"
+      sizes="250x80"
+      href="/icons8-financial-growth-analysis-50.png"
+    />
   <h1>Controle Financeiro</h1>
   <p>Gerencie suas finanças de forma simples, rápida e segura. Ideal para pequenos negócios e uso pessoal.</p>
 </div>
